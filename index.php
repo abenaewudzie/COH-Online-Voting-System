@@ -97,34 +97,43 @@
             if (dayOfWeek >= 1 && dayOfWeek <= 5) { // Monday to Friday
                 if (now >= votingStartTime && now <= votingEndTime) {
                     loginButton.disabled = false; // Enable login button
-                    document.getElementById("votingStatus").innerHTML = ""; // Clear status message
+                    document.getElementById("votingStatus").innerHTML = "Voting is currently active."; // Show active voting message
+
+                    // Countdown until voting ends
+                    var countdownTime = votingEndTime - now;
+
+                    // Calculate hours, minutes, and seconds for countdown
+                    var hours = Math.floor((countdownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((countdownTime % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((countdownTime % (1000 * 60)) / 1000);
+
+                    document.getElementById("countdownTimer").innerHTML = "Voting ends in: " + hours + "h " + minutes + "m " + seconds + "s";
                 } else {
                     loginButton.disabled = true; // Disable login button
                     document.getElementById("votingStatus").innerHTML = "Voting is closed at this time.";
+
+                    // Countdown to next voting session
+                    var nextVotingStartTime;
+                    if (now > votingEndTime) {
+                        nextVotingStartTime = new Date(votingStartTime.getTime() + (7 * 24 * 60 * 60 * 1000)); // Next week's voting
+                    } else {
+                        nextVotingStartTime = votingStartTime; // Today's voting starts next time
+                    }
+
+                    var countdownTime = nextVotingStartTime - now; // Time until next voting starts
+
+                    // Calculate hours, minutes, and seconds for countdown
+                    var hours = Math.floor((countdownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((countdownTime % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((countdownTime % (1000 * 60)) / 1000);
+
+                    document.getElementById("countdownTimer").innerHTML = "Next voting session starts in: " + hours + "h " + minutes + "m " + seconds + "s";
                 }
             } else {
                 loginButton.disabled = true; // Disable login button on weekends
                 document.getElementById("votingStatus").innerHTML = "Voting is closed at this time.";
+                document.getElementById("countdownTimer").innerHTML = ""; // Clear countdown
             }
-
-            // Countdown timer logic
-            var countdownTime;
-            if (now < votingStartTime) {
-                countdownTime = votingStartTime - now; // Time until voting starts
-            } else if (now > votingEndTime) {
-                countdownTime = (new Date(votingStartTime.getTime() + (7 * 24 * 60 * 60 * 1000))) - now; // Time until next voting starts (next week)
-            } else {
-                // Voting is active, no countdown needed
-                document.getElementById("countdownTimer").innerHTML = ""; 
-                return; // Exit the function
-            }
-
-            // Calculate hours, minutes, and seconds for countdown
-            var hours = Math.floor((countdownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((countdownTime % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((countdownTime % (1000 * 60)) / 1000);
-
-            document.getElementById("countdownTimer").innerHTML = "Next voting session starts in: " + hours + "h " + minutes + "m " + seconds + "s";
 
         }, 1000);
 
