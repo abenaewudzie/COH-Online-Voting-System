@@ -77,13 +77,13 @@ if (isset($_POST['message'])) {
             text-align: right;
         }
         .message.user span {
-            background-color: #007bff;
-            color: white;
+            background-color: #AFAFAF;
+            color: black;
             padding: 8px;
             border-radius: 5px;
         }
         .message.bot span {
-            background-color: #28a745;
+            background-color: lightblue;
             color: white;
             padding: 8px;
             border-radius: 5px;
