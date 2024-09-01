@@ -22,7 +22,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label for="username">ID no</label>
-                                    <input class="form-control" placeholder="Please Log in your Username" name="idno" type="text" required="required" autofocus>
+                                    <input class="form-control" placeholder="Please Log in your User ID" name="idno" type="text" required="required" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label for="username">Password</label>
@@ -130,9 +130,29 @@
                     document.getElementById("countdownTimer").innerHTML = "Next voting session starts in: " + hours + "h " + minutes + "m " + seconds + "s";
                 }
             } else {
+                // Handle weekends
                 loginButton.disabled = true; // Disable login button on weekends
                 document.getElementById("votingStatus").innerHTML = "Voting is closed at this time.";
-                document.getElementById("countdownTimer").innerHTML = ""; // Clear countdown
+
+                // Countdown to next Monday at 8:00 AM
+                var nextVotingStartTime = new Date();
+                nextVotingStartTime.setUTCHours(8, 0, 0); // Set to 8:00 AM
+
+                // If today is Sunday, set to next week
+                if (dayOfWeek === 0) {
+                    nextVotingStartTime.setDate(now.getDate() + 1); // Set to Monday
+                } else {
+                    nextVotingStartTime.setDate(now.getDate() + (8 - dayOfWeek)); // Set to next Monday
+                }
+
+                var countdownTime = nextVotingStartTime - now; // Time until next voting starts
+
+                // Calculate hours, minutes, and seconds for countdown
+                var hours = Math.floor((countdownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((countdownTime % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((countdownTime % (1000 * 60)) / 1000);
+
+                document.getElementById("countdownTimer").innerHTML = "Next voting session starts in: " + hours + "h " + minutes + "m " + seconds + "s";
             }
 
         }, 1000);
