@@ -12,6 +12,10 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+CREATE DATABASE IF NOT EXISTS voting;
+USE voting;
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -27,7 +31,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `candidate`
 --
 
-CREATE TABLE `candidate` (
+CREATE TABLE IF NOT EXISTS `candidate` (
   `candidate_id` int(11) NOT NULL,
   `position` varchar(100) NOT NULL,
   `firstname` varchar(100) NOT NULL,
@@ -59,7 +63,7 @@ INSERT INTO `candidate` (`candidate_id`, `position`, `firstname`, `lastname`, `y
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -80,7 +84,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `firstname`, `lastname`) 
 -- Table structure for table `voters`
 --
 
-CREATE TABLE `voters` (
+CREATE TABLE IF NOT EXISTS `voters` (
   `voters_id` int(11) NOT NULL,
   `id_number` int(11) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -107,8 +111,7 @@ INSERT INTO `voters` (`voters_id`, `id_number`, `password`, `firstname`, `lastna
 --
 -- Table structure for table `votes`
 --
-
-CREATE TABLE `votes` (
+CREATE TABLE IF NOT EXISTS `votes` (
   `vote_id` int(255) NOT NULL,
   `candidate_id` varchar(255) NOT NULL,
   `voters_id` varchar(255) NOT NULL
